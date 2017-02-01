@@ -1,3 +1,3 @@
-*FCC Nightlife Coordination App
+**FCC Nightlife Coordination App**
 
 Part of FCC Backend Certification Assignment
