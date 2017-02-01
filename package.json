@@ -1,0 +1,24 @@
+{
+  "name": "nightlife-app",
+  "version": "1.0.0",
+  "description": "FCC NightLife Coordination Ap",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanjogs/nightlife-app.git"
+  },
+  "author": "Sanjog",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanjogs/nightlife-app/issues"
+  },
+  "homepage": "https://github.com/sanjogs/nightlife-app#readme",
+  "dependencies": {
+    "dotenv": "^4.0.0",
+    "express": "^4.14.1"
+  }
+}
