@@ -4,17 +4,17 @@
 var express = require("express");
 var app = express();
 
-var app=require("./app/routes/app");
-var api=require("./app/routes/api");
+var appRoute=require("./app/routes/index");
+var apiRoute=require("./app/routes/api");
 
 //load environment variables
 require('dotenv').load();
 
 //register app routes
-app(app);
+appRoute(app);
 
 //register api routes
-api(app);
+apiRoute(app);
 
 app.listen(process.env.PORT, () => {
     console.log('listening');
