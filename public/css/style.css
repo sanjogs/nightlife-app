@@ -1,0 +1,22 @@
+.app-header {
+  font-size: 72px;
+  background: -webkit-linear-gradient(#731a1a, #e4894c);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+body{
+     background:url("../img/nightlife.jpg");
+      background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.search-input
+{
+    font-size:18px;
+    border:2px solid rgb(78, 93, 108);
+}
+.search-input:focus
+{
+    border:2px solid rgb(100, 100, 108);
+}

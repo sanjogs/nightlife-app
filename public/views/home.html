@@ -1,0 +1,52 @@
+<div class="">
+    <h1 class="app-header">Discover Nightlife</h1>
+</div>
+<form class="row" name="form" ng-submit="search(location)" method="post">
+    <div class="col-sm-8">
+        <input name="location" class="form-control search-input" type="text" placeholder="Where?" ng-model="location" />
+    </div>
+    <div class="col-sm-4">
+        <button type="submit" style="width:100%" class="btn btn-default">
+        <i class="fa fa-glass fa-lg"></i> &nbsp;
+        Search
+        </button>
+    </div>
+</form>
+<br />
+<br />
+<div class="well well-sm" ng-if="error">
+    {{ error }}
+</div>
+<!--<div class="well text-center">
+    <span class="fa-stack fa-lg">
+    <i class="fa fa-circle-o-notch fa-stack-2x fa-spin"></i>
+    <i class="fa fa-glass fa-stack-1x fa-inverse"></i>
+    </span>
+</div>-->
+<div class="list-group">
+    <div ng-repeat="place in businesses" class="list-group-item">
+
+        <div class="media">
+            <div class="media-left">
+                <a ng-href="{{ place.url }}" target="_blank">
+                    <img class="media-object" width="100px" ng-src="{{ place.image_url || '/img/nightlife.jpg' }}">
+                </a>
+            </div>
+            <div class="media-body">
+                <a ng-href="{{ place.url }}" target="_blank">
+
+                    <span class="media-heading h4"> {{ place.name }}</h4>
+                </a>&nbsp;
+                <a class="btn btn-info btn-xs" ng-click="checkIn(place.id)" style="vertical-align: top;">
+                    {{ place.checkin_count }}
+                    Going
+                    </a>
+                <div class="clearfix">
+                {{ place.description }}
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
