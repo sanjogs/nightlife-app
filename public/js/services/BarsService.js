@@ -7,7 +7,7 @@ angular.module('nightLife').factory('BarSvc', ['$http', function($http) {
           checkIn: function(businessId) {
                 return $http.post('/api/check-in/' + businessId);
             },
-            cancelCheckIn: function(businessID) {
+            cancelCheckIn: function(businessId) {
                 return $http.post('/api/cancel-check-in/' + businessId);
             }
         }

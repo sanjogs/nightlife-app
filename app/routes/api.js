@@ -28,27 +28,47 @@ var apiRoutes = function(app) {
         }
     });
 
-    function isLoggedIn(req,res, next)
-    {
-        if(req.isAuthenticated())
-        {
+    function isLoggedIn(req, res, next) {
+        if (req.isAuthenticated()) {
             next();
-        }
-        else
-        {
+        } else {
             res.status(401).send();
         }
     }
 
     app.route('/api/check-in/:businessId')
-           .get(isLoggedIn,function(req,res){
+        .post(isLoggedIn, function(req, res) {
 
-        console.log(req.params.businessId);
+            var checkIn = new checkins();
+            checkIn.businessId = req.params.businessId;
+            checkIn.userID = req.user._id;
 
-    });
+
+            checkIn.save(function(err) {
+                if (err) {
+                    res.status(501).send();
+                }
+
+                res.status(200).send();
+            });
+        });
+    app.route('/api/cancel-check-in/:businessId')
+        .post(isLoggedIn, function(req, res) {
+
+            checkins.findOneAndRemove({
+                businessId: req.params.businessId,
+                userID: req.user._id
+            }, function(err, doc,result) {
+                if (err) {
+                    res.status(501).send();
+                }
+                res.status(200).send();
+            })
+        });
+
 
     function searchPlaces(req, callback) {
-        var location=req.query.location;
+        var location = req.query.location;
         var oauth = OAuth({
             consumer: {
                 key: config.yelp.consumerKey,
@@ -69,7 +89,7 @@ var apiRoutes = function(app) {
             url: 'https://api.yelp.com/v2/search/?term=nightlife&location=' + location || '',
             method: 'GET'
         };
-        
+
         request({
             url: request_data.url,
             method: request_data.method,
@@ -80,7 +100,7 @@ var apiRoutes = function(app) {
                 var yelpResponse = JSON.parse(body);
                 if (yelpResponse.businesses) {
                     var businesses = [];
-
+                    var promises = [];
                     yelpResponse.businesses.forEach(function(business, idx) {
 
                         businesses.push({
@@ -92,29 +112,35 @@ var apiRoutes = function(app) {
                             checkin_count: 0,
                             is_user_checkedin: false
                         });
-                        checkins.count({
-                            businessId: business.id
-                        }, function(err,count) {
 
-                            businesses[idx].checkin_count = count || 0;
-                        });
-                        if (req.isAuthenticated()) {
-                            checkins.findOne({
-                                businessId: business.id,
-                                userID: req.user._id
-                            }, function(err, u) {
-                                if (!err && u) {
-                                    businesses[idx].is_user_checkedin = true;
+                        var countSearchPromsise = new Promise(function(resolve, reject) {
+                            var checkinsQuery = checkins.find({
+                                businessId: business.id
+                            }).exec();
+                            checkinsQuery.then(function(docs) {
 
+                                businesses[idx].checkin_count = docs.length || 0;
+
+                                if (req.isAuthenticated()) {
+                                    var userDoc = docs.find(function(c) {
+                                        return c.userID.toString() === req.user._id.toString()
+                                    });
+                                    if (userDoc) {
+                                        businesses[idx].is_user_checkedin = true;
+                                    }
                                 }
+                                resolve();
                             });
-                        }
-
+                        });
+                        promises.push(countSearchPromsise);
                     });
 
+                    Promise.all(promises).then(function() {
+                        callback(null, businesses);
+                    }).catch(function(err) {});
 
 
-                    callback(null, businesses);
+
 
                 } else if (yelpResponse.error) {
 

@@ -23,11 +23,26 @@ angular.module('nightLife')
             nightlifeSearch(location);
         };
 
-        $scope.checkIn=function(businessId){
-            
-            barSvc.checkIn(businessId);
-        }
+        $scope.checkIn = function(businessId) {
 
+            barSvc.checkIn(businessId).then(function(c) {
+              var thisBusiness=  $scope.businesses.filter(function(b) {
+                    return b.id === businessId
+                })[0];
+                thisBusiness.checkin_count += 1;
+                thisBusiness.is_user_checkedin=true;
+            });
+        }
+        $scope.cancelCheckIn = function(businessId) {
+
+            barSvc.cancelCheckIn(businessId).then(function(c){
+                var thisBusiness=  $scope.businesses.filter(function(b) {
+                    return b.id === businessId
+                })[0];
+                thisBusiness.checkin_count -= 1;
+                thisBusiness.is_user_checkedin=false;
+            });
+        }
         userSvc.loginInfo().then(function success(response) {
             if (response.data && response.data.lastSearch) {
                 $scope.location = response.data.lastSearch;
