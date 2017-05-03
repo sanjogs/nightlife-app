@@ -1,11 +1,12 @@
 {
   "name": "nightlife-app",
   "version": "1.0.0",
-  "description": "FCC NightLife Coordination Ap",
+  "description": "FCC NightLife Coordination App",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall":"bower install"
   },
   "repository": {
     "type": "git",
@@ -27,5 +28,12 @@
     "passport": "^0.3.2",
     "passport-twitter": "^1.0.4",
     "request": "^2.81.0"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-ng-annotate": "^2.0.0",
+    "gulp-sourcemaps": "^2.6.0",
+    "gulp-uglify": "^2.1.2"
   }
 }

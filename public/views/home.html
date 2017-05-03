@@ -37,11 +37,11 @@
 
                     <span class="media-heading h4"> {{ place.name }}</h4>
                 </a>&nbsp;
-                <a class="btn btn-info btn-xs" ng-if="!place.is_user_checkedin" ng-click="checkIn(place.id)" style="vertical-align: top;">
+                <a class="btn btn-info btn-xs" ng-disabled="!$parent.isLoggedIn" ng-if="!place.is_user_checkedin" ng-click="checkIn(place.id)" style="vertical-align: top;">
                     {{ place.checkin_count }}
                     Going
                 </a>
-                <a class="btn btn-success btn-xs" ng-if="place.is_user_checkedin"  ng-click="cancelCheckIn(place.id)" style="vertical-align: top;">
+                <a class="btn btn-success btn-xs" ng-disabled="!$parent.isLoggedIn" ng-if="place.is_user_checkedin"  ng-click="cancelCheckIn(place.id)" style="vertical-align: top;">
                     You and {{ place.checkin_count-1 }} others
                     Going
                

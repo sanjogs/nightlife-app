@@ -3,7 +3,8 @@ angular.module('nightLife')
         $scope.location = '';
 
         var nightlifeSearch = function(location) {
-            barSvc.get(location).then(function success(response) {
+            if(location && location.length)
+            {barSvc.get(location).then(function success(response) {
 
                 if (response.data.error) {
                     $scope.businesses = [];
@@ -17,6 +18,12 @@ angular.module('nightLife')
                     $scope.businesses = [];
                     $scope.error = "Something went wrong";
                 });
+        }
+        else
+        {
+              $scope.businesses = [];
+                    $scope.error = "Enter a location";
+        }
         };
 
         $scope.search = function(location) {

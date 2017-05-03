@@ -13,6 +13,11 @@ var appRoutes = function(app,passport) {
             successRedirect: '/',
             failureRedirect: '/'
         }));
+    app.route('/auth/logout')
+		.get(function(req, res) {
+			req.logout();
+			res.redirect('/');
+		});
     //redirect everything to angular client app
     app.get('*', function(req, res) {
         // res.sendFile('./public/views/index.html'); 
